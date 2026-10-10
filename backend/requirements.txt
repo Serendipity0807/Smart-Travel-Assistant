@@ -1,0 +1,16 @@
+# Web 框架
+fastapi
+uvicorn[standard]
+
+# 数据验证与配置
+pydantic
+pydantic-settings
+
+# HTTP 客户端(调用高德/Unsplash REST API)
+httpx
+
+# 智能体框架
+hello-agents
+
+# MCP 协议(Agent 连接高德 MCP server 用)
+mcp
