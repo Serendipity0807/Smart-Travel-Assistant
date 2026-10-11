@@ -10,10 +10,11 @@ from app.routers import trip
 
 app = FastAPI(title="Smart Travel Assistant", version="0.1.0")
 
-# CORS: 开发阶段全放开(前端5173调后端8000属于跨域), 部署到服务器时收紧(阶段9)
+# CORS: 只放行白名单来源(阶段9收紧, 不再使用 *), 白名单在 config.py / .env 配置
+_cors_origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_cors_origins,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],

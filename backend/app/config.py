@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     # 预算核算(阶段6): 城市内交通按每人每天估算, 精确路线计算在阶段10自写MCP时做
     transport_daily_budget_per_person: float = 50
 
+    # CORS 白名单(阶段9): 逗号分隔的允许来源列表, 从 * 收紧为显式白名单
+    # 部署走 nginx 同源反代后本不需要跨域, 白名单是给直连场景的兜底
+    cors_origins: str = "http://localhost:5173"
+
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",   # ← 改成绝对路径
         env_file_encoding="utf-8",
