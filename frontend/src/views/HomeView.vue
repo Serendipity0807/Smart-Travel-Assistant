@@ -143,7 +143,7 @@ async function onSubmit() {
             :loading="loading"
             :disabled="!form.destination.trim() || !dateRange"
           >
-            {{ loading ? '规划中, 约需 1-2 分钟…' : '生成行程' }}
+            {{ loading ? '规划中, 约需 1-4 分钟…' : '生成行程' }}
           </el-button>
         </el-form-item>
       </el-form>
