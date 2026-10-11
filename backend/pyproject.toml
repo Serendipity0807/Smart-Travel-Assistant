@@ -1,0 +1,26 @@
+# 项目元数据 + 工具配置(ruff 代码规范 / pytest 测试)
+# 依赖目前由 requirements.txt 管理, 阶段9部署前合并进来
+[project]
+name = "smart-travel-assistant-backend"
+version = "0.1.0"
+description = "智能旅游助手后端(FastAPI + LangChain/LangGraph)"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["ruff", "pytest"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+# 阶段1/2的遗留代码(用户手写, 约定暂不调整), 逐文件忽略风格提示
+[tool.ruff.lint.per-file-ignores]
+"scripts/test_amap_mcp.py" = ["I001", "F401"]
+"scripts/test_llm.py" = ["E501"]
+"app/schemas/itinerary.py" = ["UP045", "E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

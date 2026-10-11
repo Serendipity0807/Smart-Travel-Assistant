@@ -9,8 +9,16 @@ pydantic-settings
 # HTTP 客户端(调用高德/Unsplash REST API)
 httpx
 
-# 智能体框架
-hello-agents
+# 智能体框架(LangChain 1.x + LangGraph 1.x)
+langchain
+langchain-openai
+langgraph
 
-# MCP 协议(Agent 连接高德 MCP server 用)
+# 日志(企业统一日志)
+loguru
+
+# MCP 协议(scripts/ 验证脚本还在用; langchain 内置适配器也依赖它)
 mcp
+
+# langchain.mcp.MCPAdapter 的底层实现
+fastmcp
