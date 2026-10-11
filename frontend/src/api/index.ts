@@ -7,7 +7,9 @@ import type { CandidateSpot, Itinerary, TripRequest } from '@/types/trip'
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  timeout: 180000, // 行程规划全流程(多轮 LLM 调用)约 1-2 分钟
+  // 行程规划全流程(多轮 LLM 调用)约 1-4 分钟: LLM 响应波动大, 7 天行程实测最坏 3.5 分钟,
+  // 给足余量(与 nginx 的 proxy_read_timeout 保持一致, 改这里时两边同步)
+  timeout: 600000,
 })
 
 // 响应拦截器: 统一拆包 + 统一错误提示
