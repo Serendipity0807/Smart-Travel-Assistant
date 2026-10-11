@@ -1,0 +1,15 @@
+# 部署编排: frontend(nginx 静态服务 + /api 反代) + backend(不对外暴露端口)
+services:
+  backend:
+    build: ./backend
+    env_file: ./backend/.env   # 服务器上的 .env 注入容器环境变量; .dockerignore 保证不进镜像
+    restart: unless-stopped
+    # 不映射端口: 只允许 frontend 经 compose 内网访问, 不直接暴露公网
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

@@ -1,0 +1,9 @@
+# 密钥绝不进镜像: .env 在容器运行时由 docker-compose 的 env_file 注入
+venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+logs/
+tests/
+scripts/
