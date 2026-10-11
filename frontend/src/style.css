@@ -1,0 +1,72 @@
+/* 全局基础样式 */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f5f7fa;
+  font-family:
+    'PingFang SC',
+    'Microsoft YaHei',
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #303133;
+}
+
+/* 高德地图: 景点数字标记(AmapMap.vue 动态注入的 HTML, 必须全局样式) */
+.amap-spot-marker {
+  width: 26px;
+  height: 26px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 50%;
+  background: #409eff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 高德地图: 点击标记弹出的信息窗 */
+.amap-info {
+  width: 260px;
+}
+
+.amap-info-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 6px 6px 0 0;
+  display: block;
+}
+
+.amap-info-body {
+  padding: 10px 12px;
+}
+
+.amap-info-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.amap-info-meta {
+  color: #e6a23c;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.amap-info-desc {
+  color: #606266;
+  font-size: 12px;
+  line-height: 1.5;
+}

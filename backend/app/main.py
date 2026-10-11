@@ -1,8 +1,12 @@
 #应用入口,CORS
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.config import settings
+from app.core.exceptions import AppError, app_error_handler
+from app.core.logging import logger
+from app.routers import trip
 
 app = FastAPI(title="Smart Travel Assistant", version="0.1.0")
 
@@ -14,9 +18,22 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# 后续阶段在这里注册路由:
-# app.include_router(trip.router)
-# app.include_router(place.router)
+
+# 路由注册
+app.include_router(trip.router)
+
+# 异常处理: 业务异常走统一 {code, message} 格式
+app.add_exception_handler(AppError, app_error_handler)
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    """兜底: 未预期的异常记录完整日志, 响应统一格式(不泄露内部细节)"""
+    logger.exception("未处理异常: {}", exc)
+    return JSONResponse(
+        status_code=500,
+        content={"code": 500, "message": "服务器内部错误, 请查看日志"},
+    )
 
 
 @app.get("/")

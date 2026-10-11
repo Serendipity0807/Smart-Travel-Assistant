@@ -2,7 +2,7 @@
 import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 
 
 class Budget(BaseModel):
@@ -13,6 +13,7 @@ class Budget(BaseModel):
     dining: float = Field(default=0, description="餐饮")
     transport: float = Field(default=0, description="交通")
 
+    @computed_field(description="总花费(随四项自动计算, 序列化时输出)")
     @property
     def total(self) -> float:
         """总花费"""
@@ -73,3 +74,6 @@ class Itinerary(BaseModel):
     days: list[DayPlan] = Field(default_factory=list, description="每日行程")
     budget: Budget = Field(default_factory=Budget, description="预算汇总")
     created_at: datetime.datetime = Field(default_factory=datetime.datetime.now, description="生成时间")
+    # 阶段6新增: 由业务层核算时回填(LLM 不输出这两个字段, 用默认值)
+    travelers: int = Field(default=1, ge=1, description="出行人数")
+    budget_limit: float = Field(default=0, description="用户设定的总预算(前端超支提示用)")

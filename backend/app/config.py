@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     # Unsplash
     unsplash_access_key: str = ""
 
+    # 预算核算(阶段6): 城市内交通按每人每天估算, 精确路线计算在阶段10自写MCP时做
+    transport_daily_budget_per_person: float = 50
+
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",   # ← 改成绝对路径
         env_file_encoding="utf-8",

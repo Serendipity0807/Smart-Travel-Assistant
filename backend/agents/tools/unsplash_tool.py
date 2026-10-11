@@ -3,6 +3,7 @@ import httpx
 from langchain.tools import tool
 
 from app.config import settings
+from app.core.logging import logger
 
 
 @tool
@@ -12,14 +13,19 @@ async def search_unsplash_photo(keyword: str) -> str:
     Args:
         keyword: 搜索关键词, 如 "故宫 北京" 或 "The Forbidden City"
     """
-    async with httpx.AsyncClient(timeout=10.0) as client:
-        resp = await client.get(
-            "https://api.unsplash.com/search/photos",
-            params={"query": keyword, "per_page": 1},
-            headers={"Authorization": f"Client-ID {settings.unsplash_access_key}"},
-        )
-        resp.raise_for_status()
-        data = resp.json()
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            resp = await client.get(
+                "https://api.unsplash.com/search/photos",
+                params={"query": keyword, "per_page": 1},
+                headers={"Authorization": f"Client-ID {settings.unsplash_access_key}"},
+            )
+            resp.raise_for_status()
+            data = resp.json()
+    except httpx.HTTPError as exc:
+        # 降级: 配图是辅助数据, 网络抖动时返回空串(无图), 不影响行程主体
+        logger.warning("Unsplash 搜索失败({}), 该景点将无配图: {}", keyword, exc)
+        return ""
     results = data.get("results", [])
     if not results:
         return ""
