@@ -1,5 +1,10 @@
 # 读取 .env 配置
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# 基于本文件所在位置定位 .env: config.py 在 backend/app/ 下, 上一级就是 backend/
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class Settings(BaseSettings):
@@ -17,9 +22,10 @@ class Settings(BaseSettings):
     unsplash_access_key: str = ""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=BASE_DIR / ".env",   # ← 改成绝对路径
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
 
 settings = Settings()
