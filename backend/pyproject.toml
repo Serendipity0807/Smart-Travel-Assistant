@@ -1,13 +1,39 @@
 # 项目元数据 + 工具配置(ruff 代码规范 / pytest 测试)
-# 依赖目前由 requirements.txt 管理, 阶段9部署前合并进来
 [project]
 name = "smart-travel-assistant-backend"
 version = "0.1.0"
 description = "智能旅游助手后端(FastAPI + LangChain/LangGraph)"
 requires-python = ">=3.10"
+# 依赖清单(阶段9: 由 requirements.txt 合并而来, 版本为本地验证过的实际版本,
+# 保证服务器构建产物与本地行为一致)
+dependencies = [
+    # Web 框架
+    "fastapi==0.143.0",
+    "uvicorn[standard]==0.54.0",
+    # 数据验证与配置
+    "pydantic==2.13.5",
+    "pydantic-settings==2.15.0",
+    # HTTP 客户端(调用高德/Unsplash REST API)
+    "httpx==0.28.1",
+    # 智能体框架(LangChain 1.x + LangGraph 1.x + OpenAI 兼容客户端)
+    "langchain==1.4.4",
+    "langchain-openai==1.7.0",
+    "langgraph==1.2.14",
+    "openai==3.28.0",
+    # 日志(企业统一日志)
+    "loguru==0.7.3",
+    # MCP 协议(scripts/ 验证脚本还在用; langchain 内置适配器也依赖它)
+    "mcp==2.3.0",
+    "fastmcp==4.1.0",
+]
 
 [project.optional-dependencies]
 dev = ["ruff", "pytest"]
+
+# 包发现: backend/ 下除 app/、agents/ 外还有 logs/tests/scripts 等目录,
+# 不显式限定 setuptools 会因"多个顶层包"拒绝构建
+[tool.setuptools.packages.find]
+include = ["app*", "agents*"]
 
 [tool.ruff]
 line-length = 100
